@@ -1,0 +1,6 @@
+@article{TBD,
+  title={JOLT3D: Joint Learning of Talking Heads and 3DMM Parameters with Application to Lip-Sync},
+  author={Park, Sungjoon and Park, Minsik and Lee, Haneol and Yun, Jaesub and Lee, Donggeon},
+  booktitle={TBD},
+  year={2025}
+}

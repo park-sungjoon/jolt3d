@@ -1,0 +1,233 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>JOLT3D</title>
+<link href="./jolt3d_files/style.css" rel="stylesheet">
+</head>
+
+<body>
+<div class="content">
+  <h1><strong>JOLT3D: Joint Learning of Talking Heads and 3DMM Parameters with Application to Lip-Sync</strong></h1>
+  <p id="authors">
+    Sungjoon Park,
+    Minsik Park,
+    Haneol Lee,
+    Jaesub Yun,
+    Donggeon Lee
+    <br>
+    <br>
+  <span style="font-size: 24px">Hudson AI
+  </span></p>
+  <br>
+    <font size="+2">
+          <p style="text-align: center;">
+            <a href="https://arxiv.org/abs/" target="_blank">[Paper]</a>
+            <a href="jolt3d_files/bibtex.txt" target="_blank">[BibTeX]</a>
+          </p>
+    </font>
+    <h3 style="text-align:center">
+      Once a disentabled blendshape systen is obtained, you can change just the mouth region to obtain lip-synced videos.
+    </h3>
+    <br>
+    Lip-synced samples from HDTF dataset:
+    <div style="display: flex; justify-content: space-between; gap: 20px;">
+      <!-- First Video -->
+      <div style="flex: 1;">
+          <video width="100%" controls autoplay muted loop>
+              <source src="./videos/M_ToddYoung_demo.mp4" type="video/mp4">
+              Your browser does not support the video tag.
+          </video>
+      </div>
+  
+      <!-- Second Video -->
+      <div style="flex: 1;">
+          <video width="100%" controls autoplay muted loop>
+              <source src="./videos/W_ToddYoung_demo.mp4" type="video/mp4">
+              Your browser does not support the video tag.
+          </video>
+      </div>
+  </div>
+</div>
+
+<div class="content">
+  <h2 style="text-align:center;">Abstract</h2>
+  <p>In this work, we make 3DMM great again for talking head synthesis by jointly learning a face reconstruction model and a talking head synthesis model.
+    This enables us to obtain a FACS-based blendshape representation of facial expressions that is optimized for talking head synthesis.
+    This contrasts with previous methods that fit 3DMM parameters on 2D landmarks, or rely on pretrained face reconstruction models.
+    Not only does our approach increase the quality of the generated face, but it also allows us to take advantage of the blendshape representation to modify just the mouth region for the purpose of audio based lip-sync.
+    To this end, we propose a novel lip-sync pipeline that, unlike previous methods, decouples the original chin contour from the lip-synced chin contour and reduces flickering near near the mouth.</p>
+</div>
+
+
+<div class="content">
+  <h2 style="text-align:center;">Method</h2>
+  <p> We first jointly train the ReconNet (a model that predicts the 3DMM parameters) and the Generator.</p>
+  <br>
+  <img class="summary-img" src="./images/Fig1.png" style="width:100%;">
+  <br>
+  <p> We label talking face videos using the ReconNet. We use the audio and blendshape pairs to train the Audio-to-Blendshape model.</p>
+  <br>
+  <img class="summary-img" src="./images/Fig2.png" style="width:100%;">
+  <p> We train a simple UNet that blends the generated face into the original video.</p>
+  <img class="summary-img" src="./images/Fig3.png" style="width:100%;">
+  <br>
+  <p> Our lip-sync pipeline.</p>
+  <img class="summary-img" src="./images/Fig4.png" style="width:100%;">
+</div>
+
+<div class="content">
+  <h2 style="text-align:center;">Self-Reenactment</h2>
+  <p>
+    Since the ReconNet is jointly optimized with the Generator,
+    our method captures the facial motion much better than other methods
+    that uses a pretrained ReconNet or fits the 3DMM parameters to 2D landmarks.
+    Below, we compare our method with other methods that utilize 3DMM.
+    From left is the ground truth (driving face), Real3D-Portrait, HeadGAN, FADM, and our method.
+    Note that the first frame is used as the reference frame in all videos.
+    Notice that our method produces realistic (video consistent) teeth when the teeth are visible in the reference frame.
+  </p>
+  <div style="display: flex; flex-direction: column; gap: 30px; max-width: 800px; margin: 0 auto;">
+    <!-- First Video -->
+    <video width="100%" controls autoplay muted loop>
+      <source src="./videos/Self_Reenact_128.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+
+    <!-- Second Video -->
+    <video width="100%" controls autoplay muted loop>
+      <source src="./videos/Self_Reenact_136.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+
+    <!-- Third Video -->
+    <video width="100%" controls autoplay muted loop>
+      <source src="./videos/Self_Reenact_232.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+
+    <!-- Fourth Video -->
+    <video width="100%" controls autoplay muted loop>
+      <source src="./videos/Self_Reenact_30V.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+  </div>
+</div>
+
+<div class="content">
+  <h2 style="text-align:center;">Cross-Reenactment</h2>
+  <p>
+    Our model can be used for cross-reenactment by transferring all the 3DMM parameters except for the identity parameter.
+    From left is the driving video, reference face, Real3D-Portrait, HeadGAN, FADM, our method.
+  </p>
+  <div style="display: flex; flex-direction: column; gap: 30px; max-width: 800px; margin: 0 auto;">
+    <!-- First Video -->
+    <video width="100%" controls autoplay muted loop>
+      <source src="./videos/Cross_Reenact_40.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+
+    <!-- Second Video -->
+    <video width="100%" controls autoplay muted loop>
+      <source src="./videos/Cross_Reenact_272.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+
+    <!-- Third Video -->
+    <video width="100%" controls autoplay muted loop>
+      <source src="./videos/Cross_Reenact_400.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+
+    <!-- Fourth Video -->
+    <video width="100%" controls autoplay muted loop>
+      <source src="./videos/Cross_Reenact_249V.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+  </div>
+</div>
+
+
+<div class="content">
+  <h2 style="text-align:center;">Lip-Sync</h2>
+  <p>
+    Our lip-sync pipeline allows us to change just the mouth region of the video.
+    From left is the original video, LatentSync, MuseTalk, JoyGen, and our method.
+  </p>
+  <div style="display: flex; flex-direction: column; gap: 30px; max-width: 800px; margin: 0 auto;">
+    <!-- First Video -->
+    <video width="100%" controls autoplay muted loop>
+      <source src="./videos/Audio_Reenact_0.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+
+    <!-- Second Video -->
+    <video width="100%" controls autoplay muted loop>
+      <source src="./videos/Audio_Reenact_8.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+
+    <!-- Third Video -->
+    <video width="100%" controls autoplay muted loop>
+      <source src="./videos/Audio_Reenact_24.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+
+    <!-- Fourth Video -->
+    <video width="100%" controls autoplay muted loop>
+      <source src="./videos/Audio_Reenact_40.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+
+    <!-- Fifth Video -->
+    <video width="100%" controls autoplay muted loop>
+      <source src="./videos/Audio_Reenact_376.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+
+    <!-- Sixth Video -->
+    <video width="100%" controls autoplay muted loop>
+      <source src="./videos/Audio_Reenact_80V.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+
+    <!-- Seventh Video -->
+    <video width="100%" controls autoplay muted loop>
+      <source src="./videos/Audio_Reenact_727V.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+  </div>
+
+  Some more results without cropping the face.
+  <div style="display: flex; flex-direction: column; gap: 30px; max-width: 800px; margin: 0 auto;">
+    <!-- First Video -->
+    <video width="100%" controls autoplay muted loop>
+      <source src="./videos/M_LynnJenkins_8s.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+
+    <!-- Second Video -->
+    <video width="100%" controls autoplay muted loop>
+      <source src="./videos/W_LynnJenkins_8s.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+
+    <!-- Third Video -->
+    <video width="100%" controls autoplay muted loop>
+      <source src="./videos/M_Radio10_8s.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+
+    <!-- Fourth Video -->
+    <video width="100%" controls autoplay muted loop>
+      <source src="./videos/W_Radio10_8s.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+  </div>
+</div>
+<div class="content" id="acknowledgements">
+  <p><strong>Acknowledgements</strong>:
+    This page was created using template from DreamBooth.
+  </p>
+</div>
+</body>
+</html>
